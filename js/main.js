@@ -109,6 +109,8 @@ const crearImagenGrande = () => {
 
 crearImagenGrande();
 
+// imagenes[0] = "";
+
 const createGallery = () => {
     const imgBox = document.querySelector("#imgBox");
     // console.log(imgBox);
@@ -116,16 +118,29 @@ const createGallery = () => {
     imagenes.forEach((element) => {
 
 
-
+        //Creación article y añadir su clase
         const cardImagenes = document.createElement("ARTICLE");
         cardImagenes.classList = "cardImagenes";
-        fragment.append(cardImagenes);
+
+        //Creación título imagen y añadir su clase
+        const tituloImagenCard = document.createElement("H3");
+        tituloImagenCard.classList = "tituloImagenCard";
+        tituloImagenCard.textContent = element.titulo;
+        cardImagenes.append(tituloImagenCard);
 
         
+        //Creación caja de la imagen y añadir su clase
+        const cajaImagenPequenia = document.createElement("DIV");
+        cajaImagenPequenia.classList = "cajaImagenPequenia";
+        cardImagenes.append(cajaImagenPequenia);
 
+        //Creación imagenCard y sus atributos
+        const imagenPequeniaCard = document.createElement("IMG");
+        imagenPequeniaCard.setAttribute("src", element.url);
+        imagenPequeniaCard.setAttribute("alt", element.alt);
+        cajaImagenPequenia.append(imagenPequeniaCard);
 
-
-
+        fragment.append(cardImagenes);
 
 
     });
