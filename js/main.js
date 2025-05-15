@@ -3,11 +3,11 @@ const cajaBotones = document.querySelector("#cajaBotones");
 
 
 const botones = [
-    "Mar",
-    "Edificio",
-    "Señales",
-    "Arena",
-    "Cosa"
+    "mar",
+    "edificio",
+    "seniales",
+    "arena",
+    "cosa"
 ]
 
 const fragment = document.createDocumentFragment();
@@ -15,6 +15,7 @@ const fragment = document.createDocumentFragment();
 const crearBotones = () => {
     botones.forEach((boton) => {
         const botonCreado = document.createElement("button");
+        botonCreado.id = boton;
         botonCreado.textContent = boton;
         fragment.append(botonCreado);
 
@@ -35,49 +36,49 @@ const imagenes = [
         url: '/asset/image/viajes-1.jpg',
         alt: 'texto alternativo de la imagen',
         descripcion: 'Breve descripción de la imagen',
-        tags: ['mar', 'palmera', 'chica', 'cielo'],
+        tags: ['mar', 'palmera', 'chica', 'arena'],
     },
     {
         titulo: 'Viaje 2',
         url: '/asset/image/viajes-2.jpg',
         alt: 'texto alternativo de la imagen',
         descripcion: 'Breve descripción de la imagen',
-        tags: ['mar', 'arena', 'puente', 'cielo', 'casas'],
+        tags: ['mar', 'arena', 'puente', 'cielo'],
     },
     {
         titulo: 'Viaje 3',
         url: '/asset/image/viajes-3.jpg',
         alt: 'texto alternativo de la imagen',
         descripcion: 'Breve descripción de la imagen',
-        tags: ['palmera', 'agua', 'cielo'],
+        tags: ['palmera', 'edificio', 'arena'],
     },
     {
         titulo: 'Viaje 4',
         url: '/asset/image/viajes-4.jpg',
         alt: 'texto alternativo de la imagen',
         descripcion: 'Breve descripción de la imagen',
-        tags: ['palmera', 'agua', 'cielo'],
+        tags: ['palmera', 'agua', 'arena'],
     },
     {
         titulo: 'Viaje 5',
         url: '/asset/image/viajes-5.jpg',
         alt: 'texto alternativo de la imagen',
         descripcion: 'Breve descripción de la imagen',
-        tags: ['palmera', 'agua', 'cielo'],
+        tags: ['seniales', 'agua', 'cielo', 'arena'],
     },
     {
         titulo: 'Viaje 6',
         url: '/asset/image/viajes-6.jpg',
         alt: 'texto alternativo de la imagen',
         descripcion: 'Breve descripción de la imagen',
-        tags: ['palmera', 'agua', 'cielo'],
+        tags: ['palmera', 'seniales', 'cielo'],
     },
     {
         titulo: 'Viaje 7',
         url: '/asset/image/viajes-7.jpg',
         alt: 'texto alternativo de la imagen',
         descripcion: 'Breve descripción de la imagen',
-        tags: ['palmera', 'agua', 'cielo'],
+        tags: ['seniales', 'agua', 'cielo', 'cosa'],
     },
 ]
 
@@ -87,8 +88,8 @@ const imagenGrande = document.querySelector("#imagenGrande");
 const tituloImagenGrande = document.querySelector("#tituloImagenGrande");
 // console.log(tituloImagenGrande);
 
-const crearImagenGrande = () => {
-    tituloImagenGrande.textContent = imagenes[0].titulo;
+const crearImagenGrande = (arrayObjetosTag) => {
+    tituloImagenGrande.textContent = arrayObjetosTag[0].titulo;
     const cajaImagenGrande = document.createElement("DIV");
     const imageBig = document.createElement("IMG");
 
@@ -98,8 +99,8 @@ const crearImagenGrande = () => {
 
     //Imagen
 
-    imageBig.setAttribute("src", imagenes[0].url);
-    imageBig.setAttribute("alt", imagenes[0].alt);
+    imageBig.setAttribute("src", arrayObjetosTag[0].url);
+    imageBig.setAttribute("alt", arrayObjetosTag[0].alt);
     
 
     cajaImagenGrande.append(imageBig);
@@ -107,15 +108,15 @@ const crearImagenGrande = () => {
     imagenGrande.append(fragment);
 }
 
-crearImagenGrande();
+// crearImagenGrande();
 
-// imagenes[0] = "";
 
-const createGallery = () => {
+
+const createGallery = (arrayObjetosTag) => {
     const imgBox = document.querySelector("#imgBox");
     // console.log(imgBox);
     
-    imagenes.forEach((element) => {
+    for (let i = 1; i < arrayObjetosTag.length; i++) {
 
 
         //Creación article y añadir su clase
@@ -125,7 +126,7 @@ const createGallery = () => {
         //Creación título imagen y añadir su clase
         const tituloImagenCard = document.createElement("H3");
         tituloImagenCard.classList = "tituloImagenCard";
-        tituloImagenCard.textContent = element.titulo;
+        tituloImagenCard.textContent = arrayObjetosTag[i].titulo;
         cardImagenes.append(tituloImagenCard);
 
         
@@ -136,18 +137,67 @@ const createGallery = () => {
 
         //Creación imagenCard y sus atributos
         const imagenPequeniaCard = document.createElement("IMG");
-        imagenPequeniaCard.setAttribute("src", element.url);
-        imagenPequeniaCard.setAttribute("alt", element.alt);
+        imagenPequeniaCard.setAttribute("src", arrayObjetosTag[i].url);
+        imagenPequeniaCard.setAttribute("alt", arrayObjetosTag[i].alt);
         cajaImagenPequenia.append(imagenPequeniaCard);
 
         fragment.append(cardImagenes);
 
 
-    });
+    };
     imgBox.append(fragment);
 }
 
-createGallery();
+// createGallery();
+
+
+//Crear un evento que al hacer click, con ayuda del método filter, escoja solo los objetos que cuentan con ese tag. Después con el array de objetos resultante crear las imagenes con sus títulos que cuenten con ese tag.
+
+// const lista = document.querySelector("#lista");
+
+cajaBotones.addEventListener("click", (event) => {
+    let arrayObjetosMar;
+    if (event.target.id === "mar") {
+        arrayObjetosMar = imagenes.filter((element) => {
+        return element.tags.includes("mar");
+    });
+        crearImagenGrande(arrayObjetosMar);
+        createGallery(arrayObjetosMar);
+    }
+    let arrayObjetosEdificio;
+    if (event.target.id === "edificio") {
+        arrayObjetosEdificio = imagenes.filter((element) => {
+        return element.tags.includes("edificio");
+    });
+        crearImagenGrande(arrayObjetosEdificio);
+        createGallery(arrayObjetosEdificio);
+    }
+    let arrayObjetosSeniales;
+    if (event.target.id === "seniales") {
+        arrayObjetosSeniales = imagenes.filter((element) => {
+        return element.tags.includes("seniales");
+    });
+        crearImagenGrande(arrayObjetosSeniales);
+        createGallery(arrayObjetosSeniales);
+    }
+    let arrayObjetosArena;
+    if (event.target.id === "arena") {
+        arrayObjetosArena = imagenes.filter((element) => {
+        return element.tags.includes("arena");
+    });
+        crearImagenGrande(arrayObjetosArena);
+        createGallery(arrayObjetosArena);
+    }
+    let arrayObjetosCosa;
+    if (event.target.id === "cosa") {
+        arrayObjetosCosa = imagenes.filter((element) => {
+        return element.tags.includes("cosa");
+    });
+        crearImagenGrande(arrayObjetosCosa);
+        createGallery(arrayObjetosCosa);
+    }
+
+});
 
 
 
